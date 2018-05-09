@@ -1,8 +1,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
-
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
+    <ToolBar>
+        <TextField fx:id="mInput" text="10" onAction="#startSimulation"/>
+        <TextField fx:id="nInput" text="10" onAction="#startSimulation"/>
+        <TextField fx:id="pInput" text="0.05" onAction="#startSimulation"/>
+        <TextField fx:id="msInput" text="200" onAction="#startSimulation"/>
+        <Button fx:id="startButton" text="Start" onAction="#startSimulation"/>
+    </ToolBar>
+    <GridPane fx:id="gridPane">
+        <padding>
+            <Insets />
+        </padding>
+    </GridPane>
+</VBox>

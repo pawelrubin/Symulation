@@ -3,7 +3,10 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,8 @@ public class Controller {
   public TextField pInput;
   public TextField msInput;
   @FXML GridPane gridPane;
-  
+  @FXML ToolBar toolBar;
+  @FXML VBox vBox;
   private List<List<Thread>> threads = new ArrayList<>();
 
   @FXML public void startSimulation() {
@@ -25,13 +29,13 @@ public class Controller {
     int n = Integer.parseInt(nInput.getText());
     double p = Double.parseDouble(pInput.getText());
     long ms = Long.parseLong(msInput.getText());
-    // TODO szkalowanie i reset watkow
+    // TODO szkalowanie
     ColorSquare[][] colorSquares = new ColorSquare[m + 2][n + 2];
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
         ColorSquare colorSquare = new ColorSquare(p, ms);
-        colorSquare.setHeight(50);
-        colorSquare.setWidth(50);
+        colorSquare.setHeight((gridPane.getHeight() - toolBar.getHeight())/m);
+        colorSquare.setWidth(gridPane.getWidth()/n);
         colorSquares[i+1][j+1] = colorSquare;
         gridPane.add(colorSquare, i, j);
       }
@@ -59,7 +63,7 @@ public class Controller {
           somsiady[1] = colorSquares[i][j + 1];
           somsiady[2] = colorSquares[i - 1][j];
           somsiady[3] = colorSquares[i + 1][j];
-          
+
         colorSquares[i][j].setSomsiady(somsiady);
         Thread thread = new Thread(colorSquares[i][j]);
         threadsRow.add(thread);

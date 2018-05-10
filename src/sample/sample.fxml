@@ -4,15 +4,15 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
-    <ToolBar>
+<VBox fx:id="vBox" fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
+    <ToolBar fx:id="toolBar">
         <TextField fx:id="mInput" text="10" onAction="#startSimulation"/>
         <TextField fx:id="nInput" text="10" onAction="#startSimulation"/>
         <TextField fx:id="pInput" text="0.05" onAction="#startSimulation"/>
         <TextField fx:id="msInput" text="200" onAction="#startSimulation"/>
         <Button fx:id="startButton" text="Start" onAction="#startSimulation"/>
     </ToolBar>
-    <GridPane fx:id="gridPane" alignment="CENTER">
+    <GridPane fx:id="gridPane" minHeight="${vBox.height}" minWidth="${vBox.width}">
         <padding>
             <Insets />
         </padding>

@@ -30,13 +30,13 @@ public class ColorSquare extends Rectangle implements Runnable {
     this.ms = ms;
   }
   
-  public void setSomsiady(ColorSquare[] somsiady) {
+  void setSomsiady(ColorSquare[] somsiady) {
     this.somsiady = somsiady;
   }
   
   @Override
   public synchronized void run() {
-    while (true) {
+    while (Main.start) {
       try {
         Thread.sleep((long)(0.5*ms+((long) (random.nextDouble() * 1.5*ms))));
         if (random.nextDouble() < p) {

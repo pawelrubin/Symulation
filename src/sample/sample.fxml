@@ -12,7 +12,7 @@
         <TextField fx:id="msInput" text="200" onAction="#startSimulation"/>
         <Button fx:id="startButton" text="Start" onAction="#startSimulation"/>
     </ToolBar>
-    <GridPane fx:id="gridPane">
+    <GridPane fx:id="gridPane" alignment="CENTER">
         <padding>
             <Insets />
         </padding>

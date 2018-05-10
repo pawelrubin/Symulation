@@ -33,9 +33,8 @@ public class Controller {
     n = Integer.parseInt(nInput.getText());
     p = Double.parseDouble(pInput.getText());
     ms = Long.parseLong(msInput.getText());
-    
+    // TODO szkalowanie i reset watkow
     colorSquares = new ColorSquare[m+2][n+2];
-    
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
         ColorSquare colorSquare = new ColorSquare(p, ms);
@@ -63,12 +62,12 @@ public class Controller {
       List<Thread> threadsRow = new ArrayList<>();
       for (int j = 1; j < n+1; j++) {
         ColorSquare[] somsiady = new ColorSquare[4];
-        for (int k = 0; k < 4; k++) {
-          somsiady[k] = colorSquares[i][j - 1];
-          somsiady[k] = colorSquares[i][j + 1];
-          somsiady[k] = colorSquares[i - 1][j];
-          somsiady[k] = colorSquares[i + 1][j];
-        }
+        
+          somsiady[0] = colorSquares[i][j - 1];
+          somsiady[1] = colorSquares[i][j + 1];
+          somsiady[2] = colorSquares[i - 1][j];
+          somsiady[3] = colorSquares[i + 1][j];
+          
         colorSquares[i][j].setSomsiady(somsiady);
         Thread thread = new Thread(colorSquares[i][j]);
         threadsRow.add(thread);

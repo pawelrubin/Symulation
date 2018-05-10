@@ -38,7 +38,7 @@ public class ColorSquare extends Rectangle implements Runnable {
   public synchronized void run() {
     while (true) {
       try {
-        Thread.sleep(ms);
+        Thread.sleep((long)(0.5*ms+((long) (random.nextDouble() * 1.5*ms))));
         if (random.nextDouble() < p) {
           System.out.println("changing color of this");
           red = random.nextDouble();

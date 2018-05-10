@@ -36,17 +36,22 @@ public class Controller {
   private Random random = Main.random;
   private boolean check;
   
-  // TODO zabijanie watkow
   @FXML public void startSimulation() {
     threads.clear();
     gridPane.getChildren().clear();
     Main.start = false;
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException ex) {
+      System.out.println(ex.getMessage());
+    }
     int height = Integer.parseInt(mInput.getText());
     int width = Integer.parseInt(nInput.getText());
     double probability = Double.parseDouble(pInput.getText());
     long delay = Long.parseLong(msInput.getText());
     double size = Double.parseDouble(sizeInput.getText());
   
+    
     ColorSquare[][] colorSquares = new ColorSquare[height + 2][width + 2];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -78,10 +83,10 @@ public class Controller {
       for (int j = 1; j < width + 1; j++) {
         ColorSquare[] somsiady = new ColorSquare[4];
         
-          somsiady[0] = colorSquares[i][j - 1];
-          somsiady[1] = colorSquares[i][j + 1];
-          somsiady[2] = colorSquares[i - 1][j];
-          somsiady[3] = colorSquares[i + 1][j];
+        somsiady[0] = colorSquares[i][j - 1];
+        somsiady[1] = colorSquares[i][j + 1];
+        somsiady[2] = colorSquares[i - 1][j];
+        somsiady[3] = colorSquares[i + 1][j];
 
         colorSquares[i][j].setSomsiady(somsiady);
         Thread thread = new Thread(colorSquares[i][j]);

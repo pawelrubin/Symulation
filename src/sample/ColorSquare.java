@@ -13,7 +13,7 @@ public class ColorSquare extends Rectangle implements Runnable {
   private Random random = Main.random;
   private ColorSquare[] somsiady;
   
-  public ColorSquare(double p, long ms) throws IllegalArgumentException {
+  ColorSquare(double p, long ms) throws IllegalArgumentException {
     super();
     
     if (p < 0 || p > 1) {
@@ -47,7 +47,7 @@ public class ColorSquare extends Rectangle implements Runnable {
           Color color = Color.color(red, green, blue);
           Platform.runLater(() -> this.setFill(color));
         } else if (random.nextDouble() < (1 - p)) {
-          System.out.println("changing color accoring to neightours");
+          System.out.println("changing color according to neighbours");
           red = 0;
           green = 0;
           blue = 0;

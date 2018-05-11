@@ -36,7 +36,7 @@ public class ColorSquare extends Rectangle implements Runnable {
   public synchronized void run() {
     while (Main.start) {
       try {
-        Thread.sleep((long)(0.5* delay +((long) (random.nextDouble() * 1.5* delay))));
+        Thread.sleep((long)(0.5 * delay + ((long) (random.nextDouble() * 1.5 * delay))));
         if (random.nextDouble() < probability) {
           setRandomColor();
         } else if (random.nextDouble() < (1 - probability)) {

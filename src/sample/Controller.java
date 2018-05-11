@@ -40,28 +40,30 @@ public class Controller {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         ColorSquare colorSquare = new ColorSquare(probability, delay, size, random);
-        colorSquares[i+1][j+1] = colorSquare;
+        colorSquares[i + 1][j + 1] = colorSquare;
         gridPane.add(colorSquare, j, i);
       }
     }
   
     // Setting somsiady
-    for (int i = 1; i < height + 1; i++) {
+    for (int i = 1; i <= height; i++) {
       colorSquares[i][0] = colorSquares[i][width];
-      colorSquares[i][width +1] = colorSquares[i][1];
+      colorSquares[i][width + 1] = colorSquares[i][1];
     }
   
-    for (int i = 1; i < width + 1; i++) {
+    for (int i = 1; i <= width; i++) {
       colorSquares[0][i] = colorSquares[height][i];
-      colorSquares[height +1][i] = colorSquares[1][i];
+      colorSquares[height + 1][i] = colorSquares[1][i];
     }
+
     colorSquares[0][0] = colorSquares[height][width];
-    colorSquares[0][width +1 ] = colorSquares[height][1];
-    colorSquares[height +1][0] = colorSquares[1][width];
-    colorSquares[height +1][width +1] = colorSquares[1][1];
+    colorSquares[0][width + 1] = colorSquares[height][1];
+    colorSquares[height + 1][0] = colorSquares[1][width];
+    colorSquares[height + 1][width + 1] = colorSquares[1][1];
   
     for (int i = 1; i < height + 1; i++) {
       List<Thread> threadsRow = new ArrayList<>();
+
       for (int j = 1; j < width + 1; j++) {
         ColorSquare[] somsiady = new ColorSquare[8];
       
@@ -71,7 +73,7 @@ public class Controller {
         somsiady[3] = colorSquares[i + 1][j];
         somsiady[4] = colorSquares[i - 1][j - 1];
         somsiady[5] = colorSquares[i - 1][j + 1];
-        somsiady[6] = colorSquares[i + 1][j -1 ];
+        somsiady[6] = colorSquares[i + 1][j - 1];
         somsiady[7] = colorSquares[i + 1][j + 1];
         
         colorSquares[i][j].setSomsiady(somsiady);
@@ -115,7 +117,6 @@ public class Controller {
       } catch (InterruptedException ex) {
         System.out.println(ex.getMessage());
       }
-      //
       
       simulate();
       

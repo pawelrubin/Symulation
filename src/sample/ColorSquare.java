@@ -13,18 +13,10 @@ public class ColorSquare extends Rectangle implements Runnable {
   private Random random = Main.random;
   private ColorSquare[] somsiady;
   
-  public ColorSquare(double p, long ms) throws IllegalArgumentException {
+  ColorSquare(double p, long ms) throws IllegalArgumentException {
     super();
     
-    if (p < 0 || p > 1) {
-      Alert.display("Nieprawidłowe prawdopodobieśntwo","Prawdopodobieńśtwo musi być z przedziału od 0 do 1");
-      throw new IllegalArgumentException("Wrong p");
-    }
 
-    if (ms <= 0) {
-      Alert.display("Nieprawidłowy czas", "Czas nie może być mniejszy od zera");
-      throw new IllegalArgumentException("Wrong time");
-    }
 
     red = random.nextDouble();
     green = random.nextDouble();
@@ -53,7 +45,7 @@ public class ColorSquare extends Rectangle implements Runnable {
           Color color = Color.color(red, green, blue);
           Platform.runLater(() -> this.setFill(color));
         } else if (random.nextDouble() < (1 - p)) {
-          System.out.println("changing color accoring to neightours");
+          System.out.println("changing color according to neighbours");
           red = 0;
           green = 0;
           blue = 0;

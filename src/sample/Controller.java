@@ -1,94 +1,152 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Controller {
+  public BorderPane borderPane;
+  public VBox vBox;
   public TextField mInput;
   public TextField nInput;
-  public Button startButton;
   public TextField pInput;
   public TextField msInput;
-  @FXML GridPane gridPane;
-  @FXML ToolBar toolBar;
-  @FXML VBox vBox;
+  public TextField sizeInput;
+  public Button startButton;
+  public ScrollPane scrollPane;
+  public GridPane gridPane;
+  
   private List<List<Thread>> threads = new ArrayList<>();
-
-  @FXML public void startSimulation() throws IllegalArgumentException {
+  private Random random = Main.random;
+  private boolean check;
+  
+  @FXML public void startSimulation() {
+    threads.clear();
+    gridPane.getChildren().clear();
+    Main.start = false;
     try {
-      int m = Integer.parseInt(mInput.getText());
-      int n = Integer.parseInt(nInput.getText());
-      double p = Double.parseDouble(pInput.getText());
-      long ms = Long.parseLong(msInput.getText());
-
-      if (m < 1 || n < 1) {
-        Alert.display("Nieprawidłowe dane", "Błędne wymiary");
-        throw new IllegalArgumentException("Wrong width or height");
-      }
-
-      threads.clear();
-      gridPane.getChildren().clear();
-      Main.start = false;
-      // TODO szkalowanie
-      ColorSquare[][] colorSquares = new ColorSquare[m + 2][n + 2];
-      for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-          ColorSquare colorSquare = new ColorSquare(p, ms);
-          colorSquare.setHeight((gridPane.getHeight() - toolBar.getHeight()) / m);
-          colorSquare.setWidth(gridPane.getWidth() / n);
-          colorSquares[i + 1][j + 1] = colorSquare;
-          gridPane.add(colorSquare, i, j);
-        }
-      }
-      for (int i = 1; i < m + 1; i++) {
-        colorSquares[i][0] = colorSquares[i][n];
-        colorSquares[i][n + 1] = colorSquares[i][1];
-      }
-
-      for (int i = 1; i < n + 1; i++) {
-        colorSquares[0][i] = colorSquares[m][i];
-        colorSquares[m + 1][i] = colorSquares[1][i];
-      }
-      colorSquares[0][0] = colorSquares[m][n];
-      colorSquares[0][n + 1] = colorSquares[m][1];
-      colorSquares[m + 1][0] = colorSquares[1][n];
-      colorSquares[m + 1][n + 1] = colorSquares[1][1];
-
-      for (int i = 1; i < m + 1; i++) {
-        List<Thread> threadsRow = new ArrayList<>();
-        for (int j = 1; j < n + 1; j++) {
-          ColorSquare[] somsiady = new ColorSquare[4];
-
-          somsiady[0] = colorSquares[i][j - 1];
-          somsiady[1] = colorSquares[i][j + 1];
-          somsiady[2] = colorSquares[i - 1][j];
-          somsiady[3] = colorSquares[i + 1][j];
-
-          colorSquares[i][j].setSomsiady(somsiady);
-          Thread thread = new Thread(colorSquares[i][j]);
-          threadsRow.add(thread);
-        }
-        threads.add(threadsRow);
-      }
-
-      Main.start = true;
-
-      for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-          threads.get(i).get(j).start();
-        }
-      }
-
+      Thread.sleep(1000);
+    } catch (InterruptedException ex) {
+      System.out.println(ex.getMessage());
+    }
+    int height;
+    int width;
+    double probability;
+    long delay;
+    double size;
+    try {
+      height = Integer.parseInt(mInput.getText());
+      width = Integer.parseInt(nInput.getText());
+      probability = Double.parseDouble(pInput.getText());
+      delay = Long.parseLong(msInput.getText());
+      size = Double.parseDouble(sizeInput.getText());
     } catch (NumberFormatException e) {
-      Alert.display("Błędne dane","Proszę wprowadzić liczby");
-      e.printStackTrace();
+      Alert.display("Nieprawidowe dane", "Program przyjmuje jedynie liczby");
+      throw new IllegalArgumentException("Not a number");
+    }
+
+    if (height < 1 || width < 1) {
+      Alert.display("Nieprawidłowe dane", "Błędne wymiary");
+      throw new IllegalArgumentException("Wrong width or height");
+    }
+
+    if (probability < 0 || probability > 1) {
+      Alert.display("Nieprawidłowe dane","Prawdopodobieńśtwo musi być z przedziału od 0 do 1");
+      throw new IllegalArgumentException("Wrong p");
+    }
+
+    if (delay <= 0) {
+      Alert.display("Nieprawidłowe dane", "Czas nie może być mniejszy od zera");
+      throw new IllegalArgumentException("Wrong time");
+    }
+
+    if (size <= 0) {
+      Alert.display("Nieprawidłowe dane", "Rozmiar nie może być mniejszy od zera");
+      throw new IllegalArgumentException("Wrong size");
+    }
+  
+    
+    ColorSquare[][] colorSquares = new ColorSquare[height + 2][width + 2];
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        ColorSquare colorSquare = new ColorSquare(probability, delay);
+        colorSquare.setHeight(size);
+        colorSquare.setWidth(size);
+        colorSquares[i+1][j+1] = colorSquare;
+        gridPane.add(colorSquare,j,i);
+      }
+    }
+    
+    // Setting somsiady
+    for (int i = 1; i < height + 1; i++) {
+      colorSquares[i][0] = colorSquares[i][width];
+      colorSquares[i][width +1] = colorSquares[i][1];
+    }
+    
+    for (int i = 1; i < width + 1; i++) {
+      colorSquares[0][i] = colorSquares[height][i];
+      colorSquares[height +1][i] = colorSquares[1][i];
+    }
+    colorSquares[0][0] = colorSquares[height][width];
+    colorSquares[0][width +1 ] = colorSquares[height][1];
+    colorSquares[height +1][0] = colorSquares[1][width];
+    colorSquares[height +1][width +1] = colorSquares[1][1];
+    
+    for (int i = 1; i < height + 1; i++) {
+      List<Thread> threadsRow = new ArrayList<>();
+      for (int j = 1; j < width + 1; j++) {
+        ColorSquare[] somsiady = new ColorSquare[4];
+        
+        somsiady[0] = colorSquares[i][j - 1];
+        somsiady[1] = colorSquares[i][j + 1];
+        somsiady[2] = colorSquares[i - 1][j];
+        somsiady[3] = colorSquares[i + 1][j];
+
+        colorSquares[i][j].setSomsiady(somsiady);
+        Thread thread = new Thread(colorSquares[i][j]);
+        threadsRow.add(thread);
+      }
+      threads.add(threadsRow);
+    }
+    // end of setting somsiady xD
+    
+    Main.start = true;
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        threads.get(i).get(j).start();
+      }
+    }
+    
+  }
+  
+  private void interact(MouseEvent mouseEvent) {
+      ColorSquare colorSquare = (ColorSquare) mouseEvent.getTarget();
+      System.out.println("changing color of this");
+      double red = random.nextDouble();
+      double green = random.nextDouble();
+      double blue = random.nextDouble();
+      Color color = Color.color(red, green, blue);
+      Platform.runLater(() -> colorSquare.setFill(color));
+  }
+  
+  public void interactButton(/*ActionEvent actionEvent*/) {
+    check ^= true;
+    if (check) {
+      gridPane.setOnMouseMoved(this::interact);
+    } else {
+      gridPane.setOnMouseMoved(null);
     }
   }
 }

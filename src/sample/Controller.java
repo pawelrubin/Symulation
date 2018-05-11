@@ -27,6 +27,7 @@ public class Controller {
   
   private Random random = Main.random;
   private List<List<Thread>> threads = new ArrayList<>();
+  private ColorSquare[][] colorSquares = new ColorSquare[0][0];
   private boolean check;
   private int height;
   private int width;
@@ -35,8 +36,6 @@ public class Controller {
   private double size;
   
   private void simulate() {
-    ColorSquare[][] colorSquares = new ColorSquare[height + 2][width + 2];
-  
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         ColorSquare colorSquare = new ColorSquare(probability, delay, size, random);
@@ -55,6 +54,7 @@ public class Controller {
       colorSquares[0][i] = colorSquares[height][i];
       colorSquares[height +1][i] = colorSquares[1][i];
     }
+    
     colorSquares[0][0] = colorSquares[height][width];
     colorSquares[0][width +1 ] = colorSquares[height][1];
     colorSquares[height +1][0] = colorSquares[1][width];
@@ -81,9 +81,7 @@ public class Controller {
       threads.add(threadsRow);
     }
     // end of setting somsiady xD
-  
-    Main.start = true;
-  
+    
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         threads.get(i).get(j).start();
@@ -105,17 +103,19 @@ public class Controller {
       if (width < 1) {
         throw new IllegalArgumentException("Wrong width value. Should be >= 1");
       }
+  
       
-      // waiting for previous threads to die
+      // killing previous threads
+      for (int i = 0; i < colorSquares.length; i++) {
+        for (int j = 0; j < colorSquares[i].length; j++) {
+          colorSquares[i][j].kill();
+        }
+      }
+  
+      colorSquares = new ColorSquare[height + 2][width + 2];
+  
       threads.clear();
       gridPane.getChildren().clear();
-      Main.start = false;
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException ex) {
-        System.out.println(ex.getMessage());
-      }
-      //
       
       simulate();
       

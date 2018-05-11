@@ -10,6 +10,7 @@ public class ColorSquare extends Rectangle implements Runnable {
   private long delay;
   private Random random;
   private ColorSquare[] somsiady;
+  private boolean alive;
   
   ColorSquare(double probability, long delay, double size, Random random) throws IllegalArgumentException {
     super(size, size);
@@ -26,6 +27,12 @@ public class ColorSquare extends Rectangle implements Runnable {
     this.setFill(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
     this.probability = probability;
     this.delay = delay;
+    
+    alive = true;
+  }
+  
+  void kill() {
+    alive = false;
   }
   
   void setSomsiady(ColorSquare[] somsiady) {
@@ -34,12 +41,15 @@ public class ColorSquare extends Rectangle implements Runnable {
   
   @Override
   public synchronized void run() {
-    while (Main.start) {
+    while (alive) {
       try {
         Thread.sleep((long)(0.5* delay +((long) (random.nextDouble() * 1.5* delay))));
+        
         if (random.nextDouble() < probability) {
           setRandomColor();
-        } else if (random.nextDouble() < (1 - probability)) {
+        }
+        
+        if (random.nextDouble() < (1 - probability)) {
           setAverageNeighboursColor();
         }
       } catch (InterruptedException ex) {

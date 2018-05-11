@@ -1,24 +1,19 @@
 package sample;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
 public class Controller {
   public BorderPane borderPane;
@@ -45,11 +40,41 @@ public class Controller {
     } catch (InterruptedException ex) {
       System.out.println(ex.getMessage());
     }
-    int height = Integer.parseInt(mInput.getText());
-    int width = Integer.parseInt(nInput.getText());
-    double probability = Double.parseDouble(pInput.getText());
-    long delay = Long.parseLong(msInput.getText());
-    double size = Double.parseDouble(sizeInput.getText());
+    int height;
+    int width;
+    double probability;
+    long delay;
+    double size;
+    try {
+      height = Integer.parseInt(mInput.getText());
+      width = Integer.parseInt(nInput.getText());
+      probability = Double.parseDouble(pInput.getText());
+      delay = Long.parseLong(msInput.getText());
+      size = Double.parseDouble(sizeInput.getText());
+    } catch (NumberFormatException e) {
+      Alert.display("Nieprawidowe dane", "Program przyjmuje jedynie liczby");
+      throw new IllegalArgumentException("Not a number");
+    }
+
+    if (height < 1 || width < 1) {
+      Alert.display("Nieprawidłowe dane", "Błędne wymiary");
+      throw new IllegalArgumentException("Wrong width or height");
+    }
+
+    if (probability < 0 || probability > 1) {
+      Alert.display("Nieprawidłowe dane","Prawdopodobieńśtwo musi być z przedziału od 0 do 1");
+      throw new IllegalArgumentException("Wrong p");
+    }
+
+    if (delay <= 0) {
+      Alert.display("Nieprawidłowe dane", "Czas nie może być mniejszy od zera");
+      throw new IllegalArgumentException("Wrong time");
+    }
+
+    if (size <= 0) {
+      Alert.display("Nieprawidłowe dane", "Rozmiar nie może być mniejszy od zera");
+      throw new IllegalArgumentException("Wrong size");
+    }
   
     
     ColorSquare[][] colorSquares = new ColorSquare[height + 2][width + 2];
@@ -116,7 +141,7 @@ public class Controller {
       Platform.runLater(() -> colorSquare.setFill(color));
   }
   
-  public void interactButton(ActionEvent actionEvent) {
+  public void interactButton(/*ActionEvent actionEvent*/) {
     check ^= true;
     if (check) {
       gridPane.setOnMouseMoved(this::interact);

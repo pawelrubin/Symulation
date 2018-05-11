@@ -17,9 +17,15 @@ public class ColorSquare extends Rectangle implements Runnable {
     super();
     
     if (p < 0 || p > 1) {
+      Alert.display("Nieprawidłowe prawdopodobieśntwo","Prawdopodobieńśtwo musi być z przedziału od 0 do 1");
       throw new IllegalArgumentException("Wrong p");
     }
-    
+
+    if (ms <= 0) {
+      Alert.display("Nieprawidłowy czas", "Czas nie może być mniejszy od zera");
+      throw new IllegalArgumentException("Wrong time");
+    }
+
     red = random.nextDouble();
     green = random.nextDouble();
     blue = random.nextDouble();

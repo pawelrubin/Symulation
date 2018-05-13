@@ -21,10 +21,10 @@ public class Controller {
   public TextField pInput;
   public TextField msInput;
   public TextField sizeInput;
-  public Button startButton;
   public ScrollPane scrollPane;
   public GridPane gridPane;
-  
+  public Button stopButton;
+
   private Random random = Main.random;
   private List<List<Thread>> threads = new ArrayList<>();
   private ColorSquare[][] colorSquares = new ColorSquare[0][0];
@@ -34,7 +34,11 @@ public class Controller {
   private double probability;
   private long delay;
   private double size;
-  
+
+  public void initialize() {
+    stopButton.setVisible(false);
+  }
+
   private void simulate() {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -87,10 +91,18 @@ public class Controller {
         threads.get(i).get(j).start();
       }
     }
+
+    switchStopButtonVisibility(true);
   }
-  
+
+  private void switchStopButtonVisibility(boolean running) {
+    stopButton.setVisible(running);
+  }
+
   @FXML public void startSimulation() {
     try {
+      stopSimulation();
+
       height = Integer.parseInt(mInput.getText());
       width = Integer.parseInt(nInput.getText());
       probability = Double.parseDouble(pInput.getText());
@@ -100,22 +112,26 @@ public class Controller {
       if (height < 1) {
         throw new IllegalArgumentException("Wrong height value. Should be >= 1");
       }
+
       if (width < 1) {
         throw new IllegalArgumentException("Wrong width value. Should be >= 1");
       }
-  
-      
-      // killing previous threads
-      for (int i = 0; i < colorSquares.length; i++) {
-        for (int j = 0; j < colorSquares[i].length; j++) {
-          colorSquares[i][j].kill();
-        }
+
+      if (delay < 0) {
+        throw new IllegalArgumentException("Wrong delay value. Should be >= 0");
       }
-  
+
+      if (probability > 1 || probability < 0) {
+        throw new IllegalArgumentException("Wrong probability value.");
+      }
+
+      if (size < 1) {
+        throw new IllegalArgumentException("Wrong size.");
+      }
+
       colorSquares = new ColorSquare[height + 2][width + 2];
   
-      threads.clear();
-      gridPane.getChildren().clear();
+
       
       simulate();
       
@@ -123,9 +139,26 @@ public class Controller {
       Alert.display(e.getClass().getSimpleName(), e.getMessage());
     }
   }
-  
+
+  private void stopSimulation() {
+    for (int i = 0; i < colorSquares.length; i++) {
+      for (int j = 0; j < colorSquares[i].length; j++) {
+        colorSquares[i][j].kill();
+      }
+    }
+
+    threads.clear();
+    gridPane.getChildren().clear();
+
+    switchStopButtonVisibility(false);
+  }
+
+  @FXML public void pauseSimulation() {
+    stopSimulation();
+  }
+
   /**
-   * Method executes {@link ColorSquare#setRandomColor() on mouseEvent target}
+   * Method executes {@link ColorSquare#setRandomColor() mouseEvent target}
    *
    * @param mouseEvent OnMouseMoved
    */
@@ -142,8 +175,16 @@ public class Controller {
     check ^= true;
     if (check) {
       gridPane.setOnMouseMoved(this::interact);
+      gridPane.setOnMouseClicked(this::explode);
+      gridPane.setOnMousePressed(this::explode);
     } else {
       gridPane.setOnMouseMoved(null);
+      gridPane.setOnMouseClicked(null);
     }
+  }
+
+  private void explode(MouseEvent mouseEvent) {
+    ColorSquare colorSquare = (ColorSquare) mouseEvent.getTarget();
+    colorSquare.explode();
   }
 }

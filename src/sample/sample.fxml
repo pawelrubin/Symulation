@@ -2,14 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.CheckBox?>
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+
+<BorderPane fx:id="borderPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <left>
         <VBox fx:id="vBox">
             <Label text="Height" />
@@ -22,14 +23,15 @@
             <TextField fx:id="msInput" onAction="#startSimulation" text="200" />
             <Label text="Square size" />
             <TextField fx:id="sizeInput" onAction="#startSimulation" text="20" />
-            <Button fx:id="startButton" onAction="#startSimulation" text="Start" />
-            <CheckBox text="Interact!"  onAction="#interactButton"/>
+            <Button onAction="#startSimulation" text="Start" />
+            <Button fx:id="stopButton" onAction="#pauseSimulation" text="Pause"/>
+            <CheckBox onAction="#interactButton" text="Interact!" />
         </VBox>
     </left>
 
     <center>
-        <ScrollPane fx:id="scrollPane" >
-            <GridPane fx:id="gridPane" >
+        <ScrollPane fx:id="scrollPane">
+            <GridPane fx:id="gridPane">
                 <padding>
                     <Insets />
                 </padding>

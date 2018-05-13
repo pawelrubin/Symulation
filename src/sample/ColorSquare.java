@@ -24,13 +24,13 @@ public class ColorSquare extends Rectangle implements Runnable {
     }
     
     this.random = random;
-    this.setFill(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
+    this.setRandomColor();
     this.probability = probability;
     this.delay = delay;
     
     alive = true;
   }
-  
+
   void kill() {
     alive = false;
   }
@@ -43,7 +43,7 @@ public class ColorSquare extends Rectangle implements Runnable {
   public synchronized void run() {
     while (alive) {
       try {
-        Thread.sleep((long)(0.5* delay +((long) (random.nextDouble() * 1.5* delay))));
+        Thread.sleep((long) (0.5 * delay + ((long) (random.nextDouble() * 1.5 * delay))));
         
         if (random.nextDouble() < probability) {
           setRandomColor();
@@ -83,5 +83,15 @@ public class ColorSquare extends Rectangle implements Runnable {
     
     Color color = Color.color(red/8, green/8, blue/8);
     Platform.runLater(() -> this.setFill(color));
+  }
+
+  public ColorSquare[] getSomsiady() {
+    return somsiady;
+  }
+
+  void explode() {
+    for (int i = 0; i < somsiady.length; i++) {
+      somsiady[i].setRandomColor();
+    }
   }
 }

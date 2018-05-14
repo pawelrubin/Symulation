@@ -9,9 +9,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 class Alert {
+  
+  /**
+   * Method for displaying error messages.
+   *
+   * @param title Name of the handled {@link Exception}.
+   * @param message {@link Exception#getMessage()} of handled {@link Exception}.
+   */
     public static void display(String title, String message) {
         Stage window = new Stage();
-
+        window.setResizable(false);
+        
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setWidth(400);

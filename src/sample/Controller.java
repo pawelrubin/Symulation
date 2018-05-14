@@ -29,77 +29,27 @@ public class Controller {
   private List<List<Thread>> threads = new ArrayList<>();
   private ColorSquare[][] colorSquares = new ColorSquare[0][0];
   private boolean check;
+  private boolean simulating;
   private int height;
   private int width;
   private double probability;
   private long delay;
   private double size;
-
-  public void initialize() {
-    stopButton.setVisible(false);
-  }
-
-  private void simulate() {
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        ColorSquare colorSquare = new ColorSquare(probability, delay, size, random);
-        colorSquares[i+1][j+1] = colorSquare;
-        gridPane.add(colorSquare, j, i);
-      }
-    }
   
-    // Setting somsiady
-    for (int i = 1; i < height + 1; i++) {
-      colorSquares[i][0] = colorSquares[i][width];
-      colorSquares[i][width +1] = colorSquares[i][1];
-    }
-  
-    for (int i = 1; i < width + 1; i++) {
-      colorSquares[0][i] = colorSquares[height][i];
-      colorSquares[height +1][i] = colorSquares[1][i];
-    }
-    
-    colorSquares[0][0] = colorSquares[height][width];
-    colorSquares[0][width +1 ] = colorSquares[height][1];
-    colorSquares[height +1][0] = colorSquares[1][width];
-    colorSquares[height +1][width +1] = colorSquares[1][1];
-  
-    for (int i = 1; i < height + 1; i++) {
-      List<Thread> threadsRow = new ArrayList<>();
-      for (int j = 1; j < width + 1; j++) {
-        ColorSquare[] somsiady = new ColorSquare[8];
-      
-        somsiady[0] = colorSquares[i][j - 1];
-        somsiady[1] = colorSquares[i][j + 1];
-        somsiady[2] = colorSquares[i - 1][j];
-        somsiady[3] = colorSquares[i + 1][j];
-        somsiady[4] = colorSquares[i - 1][j - 1];
-        somsiady[5] = colorSquares[i - 1][j + 1];
-        somsiady[6] = colorSquares[i + 1][j -1 ];
-        somsiady[7] = colorSquares[i + 1][j + 1];
-        
-        colorSquares[i][j].setSomsiady(somsiady);
-        Thread thread = new Thread(colorSquares[i][j]);
-        threadsRow.add(thread);
-      }
-      threads.add(threadsRow);
-    }
-    // end of setting somsiady xD
-    
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        threads.get(i).get(j).start();
-      }
-    }
-
-    switchStopButtonVisibility(true);
+  /**
+   * Method stops simulation after stop button was clicked.
+   */
+  @FXML public void pauseSimulation() {
+    stopSimulation();
   }
-
-  private void switchStopButtonVisibility(boolean running) {
-    stopButton.setVisible(running);
-  }
-
-  @FXML public void startSimulation() {
+  
+  /**
+   * Method stop previous simulation, handles input and start new simulation
+   * after start button was clicked.
+   *
+   * @throws IllegalArgumentException if parameters are invalid.
+   */
+  @FXML public void startSimulation() throws IllegalArgumentException {
     try {
       stopSimulation();
 
@@ -130,16 +80,98 @@ public class Controller {
       }
 
       colorSquares = new ColorSquare[height + 2][width + 2];
-  
-
       
       simulate();
       
+      simulating = true;
     } catch (IllegalArgumentException e) {
       Alert.display(e.getClass().getSimpleName(), e.getMessage());
     }
   }
-
+  
+  /**
+   * Method sets neighbours for each ColorSquare.
+   */
+  private void setNeighbours() {
+//    frame
+    // left and right
+    for (int i = 1; i < height + 1; i++) {
+      colorSquares[i][0] = colorSquares[i][width];
+      colorSquares[i][width +1] = colorSquares[i][1];
+    }
+    
+    // top and bottom
+    for (int i = 1; i < width + 1; i++) {
+      colorSquares[0][i] = colorSquares[height][i];
+      colorSquares[height +1][i] = colorSquares[1][i];
+    }
+    
+    // corners
+    colorSquares[0][0] = colorSquares[height][width];
+    colorSquares[0][width +1 ] = colorSquares[height][1];
+    colorSquares[height +1][0] = colorSquares[1][width];
+    colorSquares[height +1][width +1] = colorSquares[1][1];
+//
+//    setting neighbours for each ColorSquare
+    for (int i = 1; i < height + 1; i++) {
+      List<Thread> threadsRow = new ArrayList<>();
+      for (int j = 1; j < width + 1; j++) {
+        ColorSquare[] somsiady = new ColorSquare[8];
+        
+        somsiady[0] = colorSquares[i][j - 1];
+        somsiady[1] = colorSquares[i][j + 1];
+        somsiady[2] = colorSquares[i - 1][j];
+        somsiady[3] = colorSquares[i + 1][j];
+        somsiady[4] = colorSquares[i - 1][j - 1];
+        somsiady[5] = colorSquares[i - 1][j + 1];
+        somsiady[6] = colorSquares[i + 1][j -1 ];
+        somsiady[7] = colorSquares[i + 1][j + 1];
+        
+        colorSquares[i][j].setSomsiady(somsiady);
+        Thread thread = new Thread(colorSquares[i][j]);
+        threadsRow.add(thread);
+      }
+      threads.add(threadsRow);
+    }
+//
+  }
+  
+  /**
+   * Method responsible for simulation
+   */
+  private void simulate() {
+    // Constructing ColorSquare objects and adding them to the gridPane
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        ColorSquare colorSquare = new ColorSquare(probability, delay, size, random);
+        colorSquares[i+1][j+1] = colorSquare;
+        gridPane.add(colorSquare, j, i);
+      }
+    }
+    
+    setNeighbours();
+    
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        threads.get(i).get(j).start();
+      }
+    }
+    
+    switchStopButtonVisibility(true);
+  }
+  
+  /**
+   * Method switch {@link #stopButton} visibility.
+   *
+   * @param running Visibility value.
+   */
+  private void switchStopButtonVisibility(boolean running) {
+    stopButton.setVisible(running);
+  }
+  
+  /**
+   * Method kills threads and clears gridPane.
+   */
   private void stopSimulation() {
     for (int i = 0; i < colorSquares.length; i++) {
       for (int j = 0; j < colorSquares[i].length; j++) {
@@ -152,11 +184,7 @@ public class Controller {
 
     switchStopButtonVisibility(false);
   }
-
-  @FXML public void pauseSimulation() {
-    stopSimulation();
-  }
-
+  
   /**
    * Method executes {@link ColorSquare#setRandomColor() mouseEvent target}
    *
@@ -182,7 +210,12 @@ public class Controller {
       gridPane.setOnMouseClicked(null);
     }
   }
-
+  
+  /**
+   * Method executes {@link ColorSquare#explode()} on mouseEvent target.
+   *
+   * @param mouseEvent MousePressed event.
+   */
   private void explode(MouseEvent mouseEvent) {
     ColorSquare colorSquare = (ColorSquare) mouseEvent.getTarget();
     colorSquare.explode();

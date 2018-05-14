@@ -12,6 +12,16 @@ public class ColorSquare extends Rectangle implements Runnable {
   private ColorSquare[] somsiady;
   private boolean alive;
   
+  /**
+   * Constructor for ColorSquare.
+   *
+   * @param probability Probability of {@link #setRandomColor()}.
+   * @param delay Delay of {@link #run()}.
+   * @param size Size of a ColorSquare object.
+   * @param random {@link Random} object for generaating random values.
+   *
+   * @throws IllegalArgumentException if parameters are invalid.
+   */
   ColorSquare(double probability, long delay, double size, Random random) throws IllegalArgumentException {
     super(size, size);
     
@@ -30,11 +40,19 @@ public class ColorSquare extends Rectangle implements Runnable {
     
     alive = true;
   }
-
+  
+  /**
+   * Method kills {@link ColorSquare} object by setting {@link #alive} to false.
+   */
   void kill() {
     alive = false;
   }
   
+  /**
+   * Method sets {@link #somsiady}.
+   *
+   * @param somsiady
+   */
   void setSomsiady(ColorSquare[] somsiady) {
     this.somsiady = somsiady;
   }

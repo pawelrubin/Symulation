@@ -24,7 +24,6 @@
             <Label text="Square size" />
             <TextField fx:id="sizeInput" onAction="#startSimulation" text="20" />
             <Button onAction="#startSimulation" text="Start" />
-            <Button fx:id="stopButton" onAction="#pauseSimulation" text="Pause"/>
             <CheckBox onAction="#interactButton" text="Interact!" />
         </VBox>
     </left>

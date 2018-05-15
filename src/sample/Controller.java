@@ -16,20 +16,21 @@ import java.util.Random;
 public class Controller {
   public BorderPane borderPane;
   public VBox vBox;
-  public TextField mInput;
-  public TextField nInput;
-  public TextField pInput;
-  public TextField msInput;
+  public TextField heightInput;
+  public TextField widthInput;
+  public TextField probabilityInput;
+  public TextField delayInput;
   public TextField sizeInput;
   public ScrollPane scrollPane;
   public GridPane gridPane;
-  public Button stopButton;
-
-  private Random random = Main.random;
+  public Button simulationButton;
+  
+  private Random random = new Random();
   private List<List<Thread>> threads = new ArrayList<>();
   private ColorSquare[][] colorSquares = new ColorSquare[0][0];
   private boolean check;
   private boolean simulating;
+  private boolean considerEight;
   private int height;
   private int width;
   private double probability;
@@ -37,55 +38,84 @@ public class Controller {
   private double size;
   
   /**
-   * Method stops simulation after stop button was clicked.
-   */
-  @FXML public void pauseSimulation() {
-    stopSimulation();
-  }
-  
-  /**
    * Method stop previous simulation, handles input and start new simulation
    * after start button was clicked.
    *
    * @throws IllegalArgumentException if parameters are invalid.
    */
-  @FXML public void startSimulation() throws IllegalArgumentException {
-    try {
+  @FXML public void simulationHandler() throws IllegalArgumentException {
+    if (!simulating) {
+      try {
+        height = Integer.parseInt(heightInput.getText());
+        width = Integer.parseInt(widthInput.getText());
+        probability = Double.parseDouble(probabilityInput.getText());
+        delay = Long.parseLong(delayInput.getText());
+        size = Double.parseDouble(sizeInput.getText());
+    
+        if (height < 1) {
+          throw new IllegalArgumentException("Wrong height value. Should be >= 1");
+        }
+    
+        if (width < 1) {
+          throw new IllegalArgumentException("Wrong width value. Should be >= 1");
+        }
+    
+        if (delay < 0) {
+          throw new IllegalArgumentException("Wrong delay value. Should be >= 0");
+        }
+    
+        if (probability > 1 || probability < 0) {
+          throw new IllegalArgumentException("Wrong probability value.");
+        }
+    
+        if (size < 1) {
+          throw new IllegalArgumentException("Wrong size.");
+        }
+    
+        simulate();
+    
+        simulating = true;
+        simulationButton.setText("Stop");
+      } catch (IllegalArgumentException e) {
+        Alert.display(e.getClass().getSimpleName(), e.getMessage());
+      }
+    } else {
       stopSimulation();
-
-      height = Integer.parseInt(mInput.getText());
-      width = Integer.parseInt(nInput.getText());
-      probability = Double.parseDouble(pInput.getText());
-      delay = Long.parseLong(msInput.getText());
-      size = Double.parseDouble(sizeInput.getText());
-      
-      if (height < 1) {
-        throw new IllegalArgumentException("Wrong height value. Should be >= 1");
+      simulating = false;
+      simulationButton.setText("Start");
+    }
+    
+  }
+  
+  @FXML public void setButton() {
+    considerEight ^= true;
+    if (considerEight) {
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          colorSquares[i][j].considerEightNeighbours();
+        }
       }
-
-      if (width < 1) {
-        throw new IllegalArgumentException("Wrong width value. Should be >= 1");
+    } else {
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          colorSquares[i][j].considerFourNeightbours();
+        }
       }
-
-      if (delay < 0) {
-        throw new IllegalArgumentException("Wrong delay value. Should be >= 0");
-      }
-
-      if (probability > 1 || probability < 0) {
-        throw new IllegalArgumentException("Wrong probability value.");
-      }
-
-      if (size < 1) {
-        throw new IllegalArgumentException("Wrong size.");
-      }
-
-      colorSquares = new ColorSquare[height + 2][width + 2];
-      
-      simulate();
-      
-      simulating = true;
-    } catch (IllegalArgumentException e) {
-      Alert.display(e.getClass().getSimpleName(), e.getMessage());
+    }
+  }
+  
+  /**
+   * Method switches {@link #gridPane}.{@link Node#setOnMouseMoved(javafx.event.EventHandler)} to
+   * {@link #interact} or null
+   */
+  @FXML public void interactButton() {
+    check ^= true;
+    if (check) {
+      gridPane.setOnMouseMoved(this::interact);
+      gridPane.setOnMouseClicked(this::explode);
+    } else {
+      gridPane.setOnMouseMoved(null);
+      gridPane.setOnMouseClicked(null);
     }
   }
   
@@ -127,7 +157,7 @@ public class Controller {
         somsiady[6] = colorSquares[i + 1][j -1 ];
         somsiady[7] = colorSquares[i + 1][j + 1];
         
-        colorSquares[i][j].setSomsiady(somsiady);
+        colorSquares[i][j].setNeighbours(somsiady);
         Thread thread = new Thread(colorSquares[i][j]);
         threadsRow.add(thread);
       }
@@ -139,7 +169,9 @@ public class Controller {
   /**
    * Method responsible for simulation
    */
-  private void simulate() {
+  private void simulate() throws IllegalArgumentException {
+    colorSquares = new ColorSquare[height + 2][width + 2];
+    
     // Constructing ColorSquare objects and adding them to the gridPane
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -156,17 +188,6 @@ public class Controller {
         threads.get(i).get(j).start();
       }
     }
-    
-    switchStopButtonVisibility(true);
-  }
-  
-  /**
-   * Method switch {@link #stopButton} visibility.
-   *
-   * @param running Visibility value.
-   */
-  private void switchStopButtonVisibility(boolean running) {
-    stopButton.setVisible(running);
   }
   
   /**
@@ -181,8 +202,6 @@ public class Controller {
 
     threads.clear();
     gridPane.getChildren().clear();
-
-    switchStopButtonVisibility(false);
   }
   
   /**
@@ -196,22 +215,6 @@ public class Controller {
   }
   
   /**
-   * Method switches {@link #gridPane}.{@link Node#setOnMouseMoved(javafx.event.EventHandler)} to
-   * {@link #interact} or null
-   */
-  public void interactButton() {
-    check ^= true;
-    if (check) {
-      gridPane.setOnMouseMoved(this::interact);
-      gridPane.setOnMouseClicked(this::explode);
-      gridPane.setOnMousePressed(this::explode);
-    } else {
-      gridPane.setOnMouseMoved(null);
-      gridPane.setOnMouseClicked(null);
-    }
-  }
-  
-  /**
    * Method executes {@link ColorSquare#explode()} on mouseEvent target.
    *
    * @param mouseEvent MousePressed event.
@@ -220,4 +223,6 @@ public class Controller {
     ColorSquare colorSquare = (ColorSquare) mouseEvent.getTarget();
     colorSquare.explode();
   }
+  
+  
 }

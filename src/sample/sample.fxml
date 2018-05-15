@@ -14,17 +14,18 @@
     <left>
         <VBox fx:id="vBox">
             <Label text="Height" />
-            <TextField fx:id="mInput" onAction="#startSimulation" text="20" />
+            <TextField fx:id="heightInput" onAction="#simulationHandler" text="20" />
             <Label text="Width" />
-            <TextField fx:id="nInput" onAction="#startSimulation" text="30" />
+            <TextField fx:id="widthInput" onAction="#simulationHandler" text="30" />
             <Label text="Probability" />
-            <TextField fx:id="pInput" onAction="#startSimulation" text="0.05" />
+            <TextField fx:id="probabilityInput" onAction="#simulationHandler" text="0.05" />
             <Label text="Delay" />
-            <TextField fx:id="msInput" onAction="#startSimulation" text="200" />
+            <TextField fx:id="delayInput" onAction="#simulationHandler" text="200" />
             <Label text="Square size" />
-            <TextField fx:id="sizeInput" onAction="#startSimulation" text="20" />
-            <Button onAction="#startSimulation" text="Start" />
+            <TextField fx:id="sizeInput" onAction="#simulationHandler" text="20" />
+            <Button fx:id="simulationButton" onAction="#simulationHandler" text="Start" />
             <CheckBox onAction="#interactButton" text="Interact!" />
+            <CheckBox onAction="#setButton" text="Consider 8 neighbours"/>
         </VBox>
     </left>
 

@@ -9,8 +9,9 @@ public class ColorSquare extends Rectangle implements Runnable {
   private double probability;
   private long delay;
   private Random random;
-  private ColorSquare[] somsiady;
+  private ColorSquare[] neighbours;
   private boolean alive;
+  private int consideredNeighbours = 4;
   
   /**
    * Constructor for ColorSquare.
@@ -41,22 +42,6 @@ public class ColorSquare extends Rectangle implements Runnable {
     alive = true;
   }
   
-  /**
-   * Method kills {@link ColorSquare} object by setting {@link #alive} to false.
-   */
-  void kill() {
-    alive = false;
-  }
-  
-  /**
-   * Method sets {@link #somsiady}.
-   *
-   * @param somsiady
-   */
-  void setSomsiady(ColorSquare[] somsiady) {
-    this.somsiady = somsiady;
-  }
-  
   @Override
   public synchronized void run() {
     while (alive) {
@@ -77,6 +62,36 @@ public class ColorSquare extends Rectangle implements Runnable {
   }
   
   /**
+   * Method kills {@link ColorSquare} object by setting {@link #alive} to false.
+   */
+  void kill() {
+    alive = false;
+  }
+  
+  /**
+   * Method sets {@link #neighbours}.
+   *
+   * @param neighbours
+   */
+  void setNeighbours(ColorSquare[] neighbours) {
+    this.neighbours = neighbours;
+  }
+  
+  void considerEightNeighbours() {
+    consideredNeighbours = 8;
+  }
+  
+  void considerFourNeightbours() {
+    consideredNeighbours = 4;
+  }
+  
+  void explode() {
+    for (int i = 0; i < consideredNeighbours; i++) {
+      neighbours[i].setRandomColor();
+    }
+  }
+  
+  /**
    * Method sets random color of this.
    */
   void setRandomColor() {
@@ -93,23 +108,15 @@ public class ColorSquare extends Rectangle implements Runnable {
     double green = 0;
     double blue = 0;
     
-    for (int i = 0; i < 8; i++) {
-      red += ((Color) somsiady[i].getFill()).getRed();
-      green += ((Color) somsiady[i].getFill()).getGreen();
-      blue += ((Color) somsiady[i].getFill()).getBlue();
+    for (int i = 0; i < consideredNeighbours; i++) {
+      red += ((Color) neighbours[i].getFill()).getRed();
+      green += ((Color) neighbours[i].getFill()).getGreen();
+      blue += ((Color) neighbours[i].getFill()).getBlue();
     }
     
-    Color color = Color.color(red/8, green/8, blue/8);
+    Color color = Color.color(red/consideredNeighbours, green/consideredNeighbours, blue/consideredNeighbours);
     Platform.runLater(() -> this.setFill(color));
   }
 
-  public ColorSquare[] getSomsiady() {
-    return somsiady;
-  }
-
-  void explode() {
-    for (int i = 0; i < somsiady.length; i++) {
-      somsiady[i].setRandomColor();
-    }
-  }
+  
 }

@@ -1,0 +1,179 @@
+\hypertarget{classsample_1_1_color_square}{}\section{sample.\+Color\+Square Class Reference}
+\label{classsample_1_1_color_square}\index{sample.\+Color\+Square@{sample.\+Color\+Square}}
+Inheritance diagram for sample.\+Color\+Square\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsample_1_1_color_square}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+synchronized void \mbox{\hyperlink{classsample_1_1_color_square_a01bfc80ce93985adcaf9f26226a5166c}{run}} ()
+\end{DoxyCompactItemize}
+\subsection*{Package Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsample_1_1_color_square_a2273dc7c774e92a81ce858facc815ec7}{Color\+Square}} (double \mbox{\hyperlink{classsample_1_1_color_square_af4e8f71262ff634ecd5d6261853b023d}{probability}}, long \mbox{\hyperlink{classsample_1_1_color_square_ac96754f907bed6644d7a18e5992af853}{delay}}, double size, Random \mbox{\hyperlink{classsample_1_1_color_square_a398146a0cc15168fc6fbe5aac3e9f50b}{random}})  throws Illegal\+Argument\+Exception 
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_a3089d9adec502bdcbec959c142872397}{kill}} ()
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_a8bc5e469f5dc2dd0a9a1963112b77fee}{set\+Neighbours}} (\mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classsample_1_1_color_square_a262acfde2a2981d945f37c9600904ff1}{neighbours}})
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_ac913da0d2207fc676be2892fd9a9f5be}{consider\+Eight\+Neighbours}} ()
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_ac487f0d013c9da85fbfbb5c5221eb1e5}{consider\+Four\+Neightbours}} ()
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_a7a9627028e034d129f9d408c89226aab}{explode}} ()
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_a268fbcc6abfcd0a2f74d94f067a9c2c7}{set\+Random\+Color}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classsample_1_1_color_square_a47856df2afb0e0dcdf11dfe5801570c9}{set\+Average\+Neighbours\+Color}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classsample_1_1_color_square_af4e8f71262ff634ecd5d6261853b023d}{probability}}
+\item 
+long \mbox{\hyperlink{classsample_1_1_color_square_ac96754f907bed6644d7a18e5992af853}{delay}}
+\item 
+Random \mbox{\hyperlink{classsample_1_1_color_square_a398146a0cc15168fc6fbe5aac3e9f50b}{random}}
+\item 
+\mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}} \mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classsample_1_1_color_square_a262acfde2a2981d945f37c9600904ff1}{neighbours}}
+\item 
+boolean \mbox{\hyperlink{classsample_1_1_color_square_ac89c88958f422f4b2293215274f1d958}{alive}}
+\item 
+int \mbox{\hyperlink{classsample_1_1_color_square_aa261ae0dcf7928c1b8f6ac86ecb3f1de}{considered\+Neighbours}} = 4
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classsample_1_1_color_square_a2273dc7c774e92a81ce858facc815ec7}\label{classsample_1_1_color_square_a2273dc7c774e92a81ce858facc815ec7}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!Color\+Square@{Color\+Square}}
+\index{Color\+Square@{Color\+Square}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{Color\+Square()}{ColorSquare()}}
+{\footnotesize\ttfamily sample.\+Color\+Square.\+Color\+Square (\begin{DoxyParamCaption}\item[{double}]{probability,  }\item[{long}]{delay,  }\item[{double}]{size,  }\item[{Random}]{random }\end{DoxyParamCaption}) throws Illegal\+Argument\+Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+Constructor for \mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em probability} & Probability of \mbox{\hyperlink{classsample_1_1_color_square_a268fbcc6abfcd0a2f74d94f067a9c2c7}{set\+Random\+Color()}}. \\
+\hline
+{\em delay} & Delay of \mbox{\hyperlink{classsample_1_1_color_square_a01bfc80ce93985adcaf9f26226a5166c}{run()}}. \\
+\hline
+{\em size} & Size of a \mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}} object. \\
+\hline
+{\em random} & \mbox{\hyperlink{}{Random}} object for generaating random values.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Illegal\+Argument\+Exception} & if parameters are invalid. \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classsample_1_1_color_square_ac913da0d2207fc676be2892fd9a9f5be}\label{classsample_1_1_color_square_ac913da0d2207fc676be2892fd9a9f5be}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!consider\+Eight\+Neighbours@{consider\+Eight\+Neighbours}}
+\index{consider\+Eight\+Neighbours@{consider\+Eight\+Neighbours}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{consider\+Eight\+Neighbours()}{considerEightNeighbours()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+consider\+Eight\+Neighbours (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_ac487f0d013c9da85fbfbb5c5221eb1e5}\label{classsample_1_1_color_square_ac487f0d013c9da85fbfbb5c5221eb1e5}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!consider\+Four\+Neightbours@{consider\+Four\+Neightbours}}
+\index{consider\+Four\+Neightbours@{consider\+Four\+Neightbours}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{consider\+Four\+Neightbours()}{considerFourNeightbours()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+consider\+Four\+Neightbours (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_a7a9627028e034d129f9d408c89226aab}\label{classsample_1_1_color_square_a7a9627028e034d129f9d408c89226aab}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!explode@{explode}}
+\index{explode@{explode}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{explode()}{explode()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+explode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_a3089d9adec502bdcbec959c142872397}\label{classsample_1_1_color_square_a3089d9adec502bdcbec959c142872397}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!kill@{kill}}
+\index{kill@{kill}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{kill()}{kill()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+kill (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+Method kills \mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}} object by setting \mbox{\hyperlink{classsample_1_1_color_square_ac89c88958f422f4b2293215274f1d958}{alive}} to false. \mbox{\Hypertarget{classsample_1_1_color_square_a01bfc80ce93985adcaf9f26226a5166c}\label{classsample_1_1_color_square_a01bfc80ce93985adcaf9f26226a5166c}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!run@{run}}
+\index{run@{run}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily synchronized void sample.\+Color\+Square.\+run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_a47856df2afb0e0dcdf11dfe5801570c9}\label{classsample_1_1_color_square_a47856df2afb0e0dcdf11dfe5801570c9}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!set\+Average\+Neighbours\+Color@{set\+Average\+Neighbours\+Color}}
+\index{set\+Average\+Neighbours\+Color@{set\+Average\+Neighbours\+Color}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{set\+Average\+Neighbours\+Color()}{setAverageNeighboursColor()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+set\+Average\+Neighbours\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Method sets color of this to average of neighbours. \mbox{\Hypertarget{classsample_1_1_color_square_a8bc5e469f5dc2dd0a9a1963112b77fee}\label{classsample_1_1_color_square_a8bc5e469f5dc2dd0a9a1963112b77fee}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!set\+Neighbours@{set\+Neighbours}}
+\index{set\+Neighbours@{set\+Neighbours}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{set\+Neighbours()}{setNeighbours()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+set\+Neighbours (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}} \mbox{[}$\,$\mbox{]}}]{neighbours }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+Method sets \mbox{\hyperlink{classsample_1_1_color_square_a262acfde2a2981d945f37c9600904ff1}{neighbours}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em neighbours} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classsample_1_1_color_square_a268fbcc6abfcd0a2f74d94f067a9c2c7}\label{classsample_1_1_color_square_a268fbcc6abfcd0a2f74d94f067a9c2c7}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!set\+Random\+Color@{set\+Random\+Color}}
+\index{set\+Random\+Color@{set\+Random\+Color}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{set\+Random\+Color()}{setRandomColor()}}
+{\footnotesize\ttfamily void sample.\+Color\+Square.\+set\+Random\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [package]}}
+
+Method sets random color of this. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classsample_1_1_color_square_ac89c88958f422f4b2293215274f1d958}\label{classsample_1_1_color_square_ac89c88958f422f4b2293215274f1d958}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!alive@{alive}}
+\index{alive@{alive}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{alive}{alive}}
+{\footnotesize\ttfamily boolean sample.\+Color\+Square.\+alive\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_aa261ae0dcf7928c1b8f6ac86ecb3f1de}\label{classsample_1_1_color_square_aa261ae0dcf7928c1b8f6ac86ecb3f1de}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!considered\+Neighbours@{considered\+Neighbours}}
+\index{considered\+Neighbours@{considered\+Neighbours}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{considered\+Neighbours}{consideredNeighbours}}
+{\footnotesize\ttfamily int sample.\+Color\+Square.\+considered\+Neighbours = 4\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_ac96754f907bed6644d7a18e5992af853}\label{classsample_1_1_color_square_ac96754f907bed6644d7a18e5992af853}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!delay@{delay}}
+\index{delay@{delay}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{delay}{delay}}
+{\footnotesize\ttfamily long sample.\+Color\+Square.\+delay\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_a262acfde2a2981d945f37c9600904ff1}\label{classsample_1_1_color_square_a262acfde2a2981d945f37c9600904ff1}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!neighbours@{neighbours}}
+\index{neighbours@{neighbours}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{neighbours}{neighbours}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsample_1_1_color_square}{Color\+Square}} \mbox{[}$\,$\mbox{]} sample.\+Color\+Square.\+neighbours\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_af4e8f71262ff634ecd5d6261853b023d}\label{classsample_1_1_color_square_af4e8f71262ff634ecd5d6261853b023d}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!probability@{probability}}
+\index{probability@{probability}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{probability}{probability}}
+{\footnotesize\ttfamily double sample.\+Color\+Square.\+probability\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classsample_1_1_color_square_a398146a0cc15168fc6fbe5aac3e9f50b}\label{classsample_1_1_color_square_a398146a0cc15168fc6fbe5aac3e9f50b}} 
+\index{sample\+::\+Color\+Square@{sample\+::\+Color\+Square}!random@{random}}
+\index{random@{random}!sample\+::\+Color\+Square@{sample\+::\+Color\+Square}}
+\subsubsection{\texorpdfstring{random}{random}}
+{\footnotesize\ttfamily Random sample.\+Color\+Square.\+random\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/sample/\mbox{\hyperlink{_color_square_8java}{Color\+Square.\+java}}\end{DoxyCompactItemize}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <left>
+        <VBox fx:id="vBox">
+            <Label text="Height" />
+            <TextField fx:id="heightInput" onAction="#simulationHandler" text="20" />
+            <Label text="Width" />
+            <TextField fx:id="widthInput" onAction="#simulationHandler" text="30" />
+            <Label text="Probability" />
+            <TextField fx:id="probabilityInput" onAction="#simulationHandler" text="0.05" />
+            <Label text="Delay" />
+            <TextField fx:id="delayInput" onAction="#simulationHandler" text="200" />
+            <Label text="Square size" />
+            <TextField fx:id="sizeInput" onAction="#simulationHandler" text="20" />
+            <Button fx:id="simulationButton" onAction="#simulationHandler" text="Start" />
+            <CheckBox onAction="#interactButton" text="Interact!" />
+            <CheckBox onAction="#setButton" text="Consider 8 neighbours"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane>
+            <GridPane fx:id="gridPane">
+                <padding>
+                    <Insets />
+                </padding>
+            </GridPane>
+        </ScrollPane>
+    </center>
+</BorderPane>
